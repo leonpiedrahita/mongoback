@@ -1,0 +1,11 @@
+{
+  "name": "back-mongo",
+  "version": "1.0.0",
+  "description": "Hacer el back de mintic pero en mongo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "LeoLeon",
+  "license": "ISC"
+}
