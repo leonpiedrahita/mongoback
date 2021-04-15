@@ -1,11 +1,18 @@
 //Manejador de rutas
+
 const express = require("express");
 const router = express.Router();
-const usersRouter = require('./api/users');
+
+//Importo las rutas
+const userRouter = require('./api/users');
 const productsRouter = require('./api/products');
 
-router.use("/users", usersRouter);
-router.use("/products", productsRouter);
+
+
+//Asocio el siguiente slash a api
+//Queda así
+router.use("/usuario", userRouter); //api/usuario
+router.use("/products", productsRouter);//api/products
 
 
 
