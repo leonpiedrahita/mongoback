@@ -19,6 +19,10 @@ const usuarioSchema = mongoose.Schema({
     rol:{
         type: String,
     },
+    estado:{
+        type:Number,
+        default:1
+    }
     
 }, { timestamps: true });
 

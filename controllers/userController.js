@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
+
 
 const { User } = require('../models');//se debe llamar al modelo con el mismo nombre que se exporta
 //en el index de modelos
 
+const tokenServices = require ('../services/token');
 
 
 exports.listar =  async(req, res, next) => {
@@ -65,7 +66,7 @@ exports.registrar =  async(req, res, next) => {
     });
 };
 
-exports.login = async(req, res, next) => {
+exports.ingresar = async(req, res, next) => {
     await User.find({ email: req.body.email })
         .exec()
         .then(user => {
@@ -82,17 +83,8 @@ exports.login = async(req, res, next) => {
                 }
                 if (result) {
                     //generamos el token
-                  const token = jwt.sign({
-                    id: user[0]._id,
-                    nombre : user[0].nombre,
-                    rol: user[0].rol,
-                    email: user[0].email
-                  }, 
-                  process.env.JWT_KEY,//llave secreta
-                  {
-                    expiresIn: "1h"
-                  }
-                   )
+                    const token = tokenServices.encode(user); // esta funcion me decuelve un token de user
+                    //esta funcion fue creada en la carpeta services
                     return res.status(200).json({
                         message: 'Autenticación exitosa',
                         tokenReturn: token
@@ -114,7 +106,8 @@ exports.login = async(req, res, next) => {
 };
 
 exports.actualizar = async (req, res, next) => {
-    User.findByIdAndUpdate(req.params.id, req.body, {new: true}).then((user) => {
+    User.findByIdAndUpdate(req.params.id, {nombre: req.body.nombre, email: req.body.email,
+      rol: req.body.rol, estado: req.body.estado } , {new: true}).then((user) => {
         if (!user) {
             return res.status(404).send();
         }
