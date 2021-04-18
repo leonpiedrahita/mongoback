@@ -18,4 +18,5 @@ router.post("/ingresar",userController.ingresar);
 
 //.com/api/usuario/actualizar/id del elemento de la colección que quiero modificar
 router.patch("/actualizar/:id",auth.verificarAdministrador,userController.actualizar);
+
 module.exports = router;
