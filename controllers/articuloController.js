@@ -2,25 +2,44 @@ const mongoose = require("mongoose");
 
 
 
-const { Articulo } = require('../models');//se debe llamar al modelo con el mismo nombre que se exporta
+const { Articulo, Categoria } = require('../models');//se debe llamar al modelo con el mismo nombre que se exporta
 //en el index de modelos
 
 
 
 
 exports.listar = async (req, res, next) => {
+    // await Articulo.find({},function(err, categoria){
+    //     Categoria.populate(categoria,{path:"categoriaId"},function(err, respuesta){
+    //         res.status(200).json({
+    //             respuesta: respuesta
+    //         });
+            
+    //     });
+        
+    // });
+
     await Articulo.find()
-        .exec()
-        .then(Articulos => {
-            res.status(200).json(Articulos)
+        .then(categoria =>{
+            Categoria.populate(categoria,{path:"categoriaId"})
+            .then(articulos=>{
+                res.status(200).json(articulos);
+
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                  error: err
+                });
+              });
         })
         .catch(err => {
             console.log(err);
             res.status(500).json({
-                error: err
+              error: err
             });
-            next(err);
-        });
+          });   
+        
 };
 
 exports.add = async (req, res, next) => {
@@ -36,7 +55,8 @@ exports.add = async (req, res, next) => {
                 _id: new mongoose.Types.ObjectId(),
                 nombre: req.body.nombre,
                 descripcion: req.body.descripcion,
-                codigo: req.body.codigo
+                codigo: req.body.codigo,
+                categoriaId: req.body.categoriaId
             });
             articulo
             .save()

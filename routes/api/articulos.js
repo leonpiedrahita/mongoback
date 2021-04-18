@@ -7,19 +7,19 @@ const auth = require('../../middleware/auth');
 //Hasta este punto ya vamos en api/usuario ya comenzamos a
 // manejar los metodos
 
-//.com/api/usuario/listar
+//.com/api/articulo/listar
 router.get("/listar",auth.verificarVendedor,articuloController.listar);
 
-//.com/api/usuario/register
+//.com/api/articulo/register
 router.post("/add",auth.verificarVendedor,articuloController.add);
 
-//.com/api/usuario/update
+//.com/api/articulo/update
 router.patch("/update/:id",auth.verificarVendedor,articuloController.update);
 
-//.com/api/usuario/activate
+//.com/api/articulo/activate
 router.patch("/activate/:id",auth.verificarVendedor,articuloController.activate);
 
-//.com/api/usuario/deactivate
+//.com/api/articulo/deactivate
 router.patch("/deactivate/:id",auth.verificarVendedor,articuloController.deactivate);
 
 module.exports = router;

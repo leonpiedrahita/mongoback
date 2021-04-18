@@ -6,9 +6,7 @@ const articuloSchema = mongoose.Schema({
     nombre: { type: String, required: true },
     descripcion: { type: String, required: true },
     estado: { type: Number, default: 1 },
-    categoriaId: [{
-        id:{type: mongoose.Schema.ObjectId, ref: 'Categorias'}
-    }],
+    categoriaId: { type: String, required: true },
  
     //productImage: { type: String, required: false }
     
