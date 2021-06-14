@@ -13,7 +13,7 @@ exports.listar = async (req, res, next) => {
   await Equipo.find()
     /* .populate('propietario', 'nombre -_id') *///este sirve para decir cual quiero enviar y cual no
     .populate('propietario cliente')
-
+    
     .then(equipo => {
       /* Cliente.populate(equipo,{path:"propietario"}) */
       /* Cliente.populate(equipo,{path:"propietario", select: 'nombre' }) */
