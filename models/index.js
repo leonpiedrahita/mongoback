@@ -5,7 +5,9 @@ const mongoose = require("mongoose");
 const User = require("./users");
 const Articulo = require("./atriculos");
 const Categoria = require("./categorias");
-
+const Cliente = require("./clientes");
+const Equipo = require("./equipos");
+const Reporte = require("./reportes");
 //Creo la conexión con Mongo
 mongoose.connect('mongodb+srv://node-shop:'+ process.env.MONGO_ATLAS_PW +'@primerproyecto.v3ebk.mongodb.net/Primerproyecto?retryWrites=true&w=majority', {
     
@@ -19,6 +21,9 @@ mongoose.Promise = global.Promise;
 module.exports = {
     User,
     Articulo,
-    Categoria
+    Categoria,
+    Cliente,
+    Equipo,
+    Reporte,
 
 };

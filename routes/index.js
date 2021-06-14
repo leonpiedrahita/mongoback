@@ -7,7 +7,9 @@ const router = express.Router();
 const userRouter = require('./api/users');
 const articuloRouter = require('./api/articulos');
 const categoriaRouter = require('./api/categorias');
-
+const clienteRouter = require('./api/clientes');
+const equipoRouter = require('./api/equipos');
+const reporteRouter = require('./api/reportes');
 
 
 //Asocio el siguiente slash a api
@@ -15,7 +17,9 @@ const categoriaRouter = require('./api/categorias');
 router.use("/usuario", userRouter); //api/usuario
 router.use("/articulo", articuloRouter);//api/articulo
 router.use("/categoria", categoriaRouter);//api/categoria
-
+router.use("/cliente", clienteRouter);//api/cliente
+router.use("/equipo", equipoRouter);//api/equipo
+router.use("/reporte", reporteRouter);//api/reporte
 
 
 

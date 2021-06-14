@@ -86,7 +86,8 @@ exports.ingresar = async(req, res, next) => {
                     const token = tokenServices.encode(user); // esta funcion me decuelve un token de user
                     //esta funcion fue creada en la carpeta services
                     return res.status(200).json({
-                        message: 'Autenticación exitosa',
+                        // message: 'Autenticación exitosa',
+                        auth:true,
                         tokenReturn: token
                     });
                 }
