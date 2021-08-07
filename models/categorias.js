@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); 
 
 const categoriaSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -10,4 +10,6 @@ const categoriaSchema = mongoose.Schema({
     
 }, { timestamps: true });
 
-module.exports = mongoose.model('Categoria', categoriaSchema);
+module.exports =categoriaSchema;
+
+/* module.exports = mongoose.model('Categoria', categoriaSchema); */

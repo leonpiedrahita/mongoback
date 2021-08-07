@@ -2,22 +2,21 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 
-const { Equipo, Cliente } = require('../models');//se debe llamar al modelo con el mismo nombre que se exporta
+const { Refequipo} = require('../models');//se debe llamar al modelo con el mismo nombre que se exporta
 //en el index de modelos
 const obtenerConexion = require('../conexiones/Factoriaconexion');
 const obtenerModelo = require('../conexiones/FactoriaModelo');
 
 const tokenServices = require('../services/token');
 const connbase1 = obtenerConexion('Primerproyecto');
-const modeloequipo = obtenerModelo('Equipo',Equipo, connbase1)
-const modelocliente = obtenerModelo('Cliente',Cliente, connbase1)
+const modelorefequipo = obtenerModelo('Refequipo',Refequipo, connbase1)
+
 
 exports.listar = async (req, res, next) => {
 
 
-  await modeloequipo.find()
-/*     .populate('propietario', 'nombre -_id') //este sirve para decir cual quiero enviar y cual no
- */    .populate('propietario cliente')
+  await modelorefequipo.find()
+
 
     .then(equipo => {
 /*       modelocliente.populate(equipo,{path:"propietario"})
@@ -36,7 +35,7 @@ exports.listar = async (req, res, next) => {
 };
 
 exports.registrar = async (req, res, next) => {
-  await modeloequipo.find({ serie: req.body.serie })
+  await modelorefequipo.find({ nombre: req.body.nombre })
     .exec()
     .then(equipos => {
       if (equipos.length >= 1) {
@@ -45,16 +44,10 @@ exports.registrar = async (req, res, next) => {
         });
       } else {
 
-        const equipo = new modeloequipo({
+        const equipo = new modelorefequipo({
           _id: new mongoose.Types.ObjectId(),
-          nombre: req.body.nuevoequipo.nombre,
-          marca: req.body.nuevoequipo.marca,
-          serie: req.body.nuevoequipo.serie,
-          propietario: req.body.nuevoequipo.propietario.id,
-          cliente: req.body.nuevoequipo.cliente.id,
-          ubicacionnombre:req.body.nuevoequipo.ubicacion.nombre,
-          ubicaciondireccion:req.body.nuevoequipo.ubicacion.direccion,
-          estado: 'Activo'
+          nombre: req.body.nombre,
+          marca: req.body.marca,
         });
         equipo
           .save()
@@ -79,7 +72,7 @@ exports.registrar = async (req, res, next) => {
     });
 };
 
-exports.actualizar = async (req, res, next) => {
+/* exports.actualizar = async (req, res, next) => {
   const id = req.params.id;
   const updateOps = {};
   const ensayo = Object.keys(req.body);
@@ -125,4 +118,4 @@ exports.buscar = async (req, res, next) => {
         error: err
       });
     });
-};
+}; */

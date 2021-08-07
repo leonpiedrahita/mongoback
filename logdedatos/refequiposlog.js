@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const clientelogSchema = mongoose.Schema({
+const regequipologSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     insercion: { type: Object, required: true },
     tipodeinsercion: { type: Object, required: true },
@@ -10,4 +10,4 @@ const clientelogSchema = mongoose.Schema({
     
 }, { timestamps: true });
 
-module.exports = clientelogSchema;
+module.exports = regequipologSchema;

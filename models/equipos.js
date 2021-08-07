@@ -7,9 +7,14 @@ const equipoSchema = mongoose.Schema({
     serie: { type: String, required: true },
     propietario: { type: mongoose.Schema.Types.ObjectId, ref: 'Cliente', required: true },
     cliente: { type: mongoose.Schema.Types.ObjectId, ref: 'Cliente', required: true },
+    ubicacionnombre:{ type: String, required: true },
+    ubicaciondireccion:{ type: String, required: true },
+    estado:{ type: String, required: true },
      
     //productImage: { type: String, required: false }
     
 }, { timestamps: true });
 
-module.exports = mongoose.model('Equipo', equipoSchema);
+module.exports = equipoSchema;
+
+/* module.exports = mongoose.model('Equipo', equipoSchema); */

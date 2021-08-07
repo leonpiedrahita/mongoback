@@ -27,4 +27,4 @@ const usuariologSchema = mongoose.Schema({
 }, { timestamps: true });
 
 
-module.exports = mongoose.model('Usuariolog', usuariologSchema);
+module.exports = usuariologSchema;

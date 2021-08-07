@@ -12,4 +12,4 @@ const articulologSchema = mongoose.Schema({
     
 }, { timestamps: true });
 
-module.exports = mongoose.model('Articulolog', articulologSchema);
+module.exports =articulologSchema;

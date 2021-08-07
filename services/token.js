@@ -1,5 +1,10 @@
 const jwt = require('jsonwebtoken');
+
 const { User } = require('../models');
+const obtenerConexion = require('../conexiones/Factoriaconexion');
+const obtenerModelo = require('../conexiones/FactoriaModelo');
+const connbase1 = obtenerConexion('Primerproyecto');
+const modelousuario = obtenerModelo('Usuario',User, connbase1)
 
 const checkToken = async(token) =>{
     let localID =null;
@@ -9,7 +14,7 @@ const checkToken = async(token) =>{
     }catch{
         return false;
     }
-    const user = await User.findOne({where:{
+    const user = await modelousuario.findOne({where:{
         _id : localID,
         estado: 1
     }});
@@ -32,7 +37,7 @@ module.exports = {
         },
             process.env.JWT_KEY,//llave secreta
             {
-                expiresIn: "1h"
+                expiresIn: "1800000"
             }
         )
         return token;
@@ -41,19 +46,24 @@ module.exports = {
     decode: async (token)=>{
         try{
             const {id,} = jwt.verify(token, process.env.JWT_KEY);
-            const user = await User.findOne({
+            
+            const user = await modelousuario.findOne({
                 _id : id,
                 estado: 1
             })
             if(user){
                 return user;
             }else {
+                
                 return false;
             }
         } catch(error){
-            const newToken = await checkToken(token);//llamo a la funcion creada checktoken para ver si fue que se vencio
-            //el token o si es que hay un impostor
-            return newToken;
+            if(error.message === 'jwt expired'){
+                return 'token vencido'
+            };
+            if(error.message !== 'jwt expired'){
+                return false
+            };
         }
     }
 }

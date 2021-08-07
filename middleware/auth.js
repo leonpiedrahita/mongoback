@@ -8,7 +8,12 @@ module.exports = {
             });
         }else{
             const validationResponse = await tokenServices.decode(req.headers.token);
-            if(validationResponse.rol === 'administrador'){
+            if(validationResponse === 'token vencido'){
+                return res.status(403).send({
+                    message: 'Token vencido'
+                })
+            }
+            else if(validationResponse.rol === 'administrador'){
                 next();//si es usuario es administrador, bien pueda
             }else{
                 return res.status(403).send({

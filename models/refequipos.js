@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 
-const categorialogSchema = mongoose.Schema({
+const refequipoSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     nombre: { type: String, required: true },
-    descripcion: { type: String, required: true },
-    estado: { type: Number, default: 1},
+    marca: { type: String, required: true },
      
     //productImage: { type: String, required: false }
     
 }, { timestamps: true });
 
-module.exports = categorialogSchema;
+module.exports = refequipoSchema;
+
+/* module.exports = mongoose.model('Equipo', equipoSchema); */

@@ -6,10 +6,13 @@ const { User } = require('../models');//se debe llamar al modelo con el mismo no
 //en el index de modelos
 
 const tokenServices = require ('../services/token');
-
+const obtenerConexion = require('../conexiones/Factoriaconexion');
+const obtenerModelo = require('../conexiones/FactoriaModelo');
+const connbase1 = obtenerConexion('Primerproyecto');
+const modelousuario = obtenerModelo('Usuario',User, connbase1)
 
 exports.listar =  async(req, res, next) => {
-    await User.find()
+    await modelousuario.find()
     .exec()
     .then(Usuarios => {
             res.status(200).json(Usuarios)
@@ -24,7 +27,7 @@ exports.listar =  async(req, res, next) => {
 };
 
 exports.registrar =  async(req, res, next) => {
-    await User.find({ email: req.body.email })
+    await modelousuario.find({ email: req.body.email })
       .exec()
       .then(user => {
         if (user.length >= 1) {
@@ -38,12 +41,13 @@ exports.registrar =  async(req, res, next) => {
                 error: err
               });
             } else {
-              const user = new User({
+              const user = new modelousuario({
                 _id: new mongoose.Types.ObjectId(),
                 nombre: req.body.nombre,
                 email: req.body.email,
                 password: hash,
-                rol: req.body.rol
+                rol: req.body.rol,
+                
               });
               user 
                 .save()
@@ -67,7 +71,7 @@ exports.registrar =  async(req, res, next) => {
 };
 
 exports.ingresar = async(req, res, next) => {
-    await User.find({ email: req.body.email })
+    await modelousuario.find({ email: req.body.email })
         .exec()
         .then(user => {
             if (user.length < 1) {
@@ -107,7 +111,7 @@ exports.ingresar = async(req, res, next) => {
 };
 
 exports.actualizar = async (req, res, next) => {
-    User.findByIdAndUpdate(req.params.id, {nombre: req.body.nombre, email: req.body.email,
+    modelousuario.findByIdAndUpdate(req.params.id, {nombre: req.body.nombre, email: req.body.email,
       rol: req.body.rol, estado: req.body.estado } , {new: true}).then((user) => {
         if (!user) {
             return res.status(404).send();

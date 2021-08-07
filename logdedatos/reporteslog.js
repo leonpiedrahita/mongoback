@@ -28,4 +28,4 @@ const reportelogSchema = mongoose.Schema({
     
 }, { timestamps: true });
 
-module.exports = mongoose.model('Reportelog', reportelogSchema);
+module.exports =reportelogSchema;

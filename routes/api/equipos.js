@@ -2,16 +2,17 @@ const express = require("express");
 const router = express.Router();
 
 const equipoController = require('../../controllers/equipoController');
+const equipo2Controller = require('../../controllers/equipo2Controller');
 const auth = require('../../middleware/auth');
 
 //Hasta este punto ya vamos en api/usuario ya comenzamos a
 // manejar los metodos
 
 //.com/api/usuario/listar
-router.get("/listar",equipoController.listar);
+router.get("/listar"/* ,auth.verificarAdministrador */,equipoController.listar ,equipo2Controller.listar);
 
 //.com/api/usuario/register
-router.post("/registrar",equipoController.registrar);
+router.post("/registrar",equipoController.registrar,equipo2Controller.registrar);
 
 
 
