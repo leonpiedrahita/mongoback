@@ -8,7 +8,7 @@ const auth = require('../../middleware/auth');
 // manejar los metodos
 
 //.com/api/usuario/listar
-router.get("/listar",userController.listar);
+router.get("/listar",auth.verificarVendedor,userController.listar);
 
 //.com/api/usuario/register
 router.post("/registrar",auth.verificarAdministrador,userController.registrar);
