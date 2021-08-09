@@ -16,18 +16,9 @@ const modeloequipo = obtenerModelo('Equipo', Equipo, connbase1)
 exports.listar = async (req, res, next) => {
   await modeloreporte.find()
   .then(reporte =>{
-    modeloequipo.populate(reporte,{path:"infoequipo"})
-    .then(equipos=>{
-        res.status(200).json(equipos);
+  
+        res.status(200).json(reporte);
 
-
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
-      });
 })
 .catch(err => {
     console.log(err);
