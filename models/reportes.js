@@ -7,7 +7,7 @@ const reporteSchema = mongoose.Schema({
     duracion: { type: String, required: true },
     fechadeinicio: { type: String, required: true },
     fechadefinalizacion: { type: String, required: true },
-    infoequipo: { type: String, required: true },
+    infoequipo: { type: Object, required: true },
     propietario: { type: String, required: true },
     nombrecliente: { type: String, required: true },
     nitcliente: { type: String, required: true },
@@ -21,6 +21,7 @@ const reporteSchema = mongoose.Schema({
     repuestos: { type: String, required: true },
     observaciones: { type: String, required: true },
     firmacliente:{ type: String, required: true },
+    firmaingeniero:{ type: String, required: true },
     ingeniero:{ type: String, required: true },
 
      

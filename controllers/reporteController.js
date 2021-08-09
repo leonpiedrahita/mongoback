@@ -6,12 +6,17 @@ const { Reporte, Equipo} = require('../models');//se debe llamar al modelo con e
 //en el index de modelos
 
 const tokenServices = require('../services/token');
+const obtenerConexion = require('../conexiones/Factoriaconexion');
+const obtenerModelo = require('../conexiones/FactoriaModelo');
+const connbase1 = obtenerConexion('Primerproyecto');
+const modeloreporte = obtenerModelo('Reporte', Reporte, connbase1)
+const modeloequipo = obtenerModelo('Equipo', Equipo, connbase1)
 
 
 exports.listar = async (req, res, next) => {
-  await Reporte.find()
+  await modeloreporte.find()
   .then(reporte =>{
-    Equipo.populate(reporte,{path:"infoequipo"})
+    modeloequipo.populate(reporte,{path:"infoequipo"})
     .then(equipos=>{
         res.status(200).json(equipos);
 
@@ -33,57 +38,54 @@ exports.listar = async (req, res, next) => {
 };
 exports.listaruno = async (req, res, next) => {
   const id =req.params.id 
-  await Reporte.find({ _id:id})
+  await modeloreporte.find({ _id:id})
     .exec()
     .then(reporte => {
       
       if (reporte.length >= 1) {
-        Equipo.populate(reporte,{path:"infoequipo"})
-        .then(equipos=>{
-            res.status(200).json(equipos[0]);
+        
+            res.status(200).json(reporte[0]);
     
     
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-              error: err
-            });
-          });
+        
+        
       } else {
         res.json("nada")
 
       }
+      
     });
+ 
 };
 
 exports.registrar = async (req, res, next) => {
-  await Reporte.count()
+  await modeloreporte.count()
     .exec()
     .then(contador => {     
 
-        const reporte = new Reporte({          
+        const reporte = new modeloreporte({          
           _id: new mongoose.Types.ObjectId(),
           numero: contador+1,
-          tipodeasistencia: req.body.tipodeasistencia,
-          duracion:  req.body.duracion,
-          fechadeinicio:  req.body.fechadeinicio,
-          fechadefinalizacion:  req.body.fechadefinalizacion,
-          infoequipo: req.body.infoequipo,
-          propietario:  req.body.propietario,
-          nombrecliente:  req.body.nombrecliente,
-          nitcliente:  req.body.nitcliente,
-          sedecliente:  req.body.sedecliente,
-          direccioncliente:  req.body.direccioncliente,
-          profesionalcliente:  req.body.profesionalcliente,
-          telefonocliente:  req.body.telefonocliente,
-          hallazgos:  req.body.hallazgos,
-          actividades:  req.body.actividades,
-          pruebas:  req.body.pruebas,
-          repuestos:  req.body.repuestos,
-          observaciones:  req.body.observaciones,
-          firmacliente:  req.body.firmacliente,
-          ingeniero:  req.body.ingeniero,
+          tipodeasistencia: req.body.reporte.tipodeasistencia,
+          duracion:  req.body.reporte.duracion,
+          fechadeinicio:  req.body.reporte.fechadeinicio,
+          fechadefinalizacion:  req.body.reporte.fechadefinalizacion,
+          infoequipo: req.body.reporte.infoequipo,
+          propietario:  req.body.reporte.propietario,
+          nombrecliente:  req.body.reporte.nombrecliente,
+          nitcliente:  req.body.reporte.nitcliente,
+          sedecliente:  req.body.reporte.sedecliente,
+          direccioncliente:  req.body.reporte.direccioncliente,
+          profesionalcliente:  req.body.reporte.profesionalcliente,
+          telefonocliente:  req.body.reporte.telefonocliente,
+          hallazgos:  req.body.reporte.hallazgos,
+          actividades:  req.body.reporte.actividades,
+          pruebas:  req.body.reporte.pruebas,
+          repuestos:  req.body.reporte.repuestos,
+          observaciones:  req.body.reporte.observaciones,
+          firmacliente:  req.body.reporte.firmacliente,
+          firmaingeniero:  req.body.reporte.firmaingeniero,
+          ingeniero:  req.body.reporte.ingeniero,
         });
         reporte
           .save()

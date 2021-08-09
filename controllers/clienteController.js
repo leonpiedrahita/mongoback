@@ -9,7 +9,7 @@ const tokenServices = require('../services/token');
 const obtenerConexion = require('../conexiones/Factoriaconexion');
 const obtenerModelo = require('../conexiones/FactoriaModelo');
 const connbase1 = obtenerConexion('Primerproyecto');
-const modelocliente = obtenerModelo('CLiente', Cliente, connbase1)
+const modelocliente = obtenerModelo('Cliente', Cliente, connbase1)
 
 
 
