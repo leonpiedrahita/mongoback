@@ -82,8 +82,6 @@ exports.registrar = async (req, res, next) => {
             });
             next(err);
           });
-
-
       }
     });
 };
