@@ -82,9 +82,12 @@ exports.registrar = async (req, res, next) => {
           .save()
           .then(result => {
             console.log(result);
-            res.status(201).json({
+            req.respuesta='Reporte creado'
+            req.idcreada=result._id
+            next()
+           /*  res.status(201).json({
               message: 'Reporte creado'
-            });
+            }); */
           })
           .catch(err => {
             console.log(err);

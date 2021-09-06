@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const reporteController = require('../../controllers/reporteController');
+const reporteRegController = require('../../controllers/reporteRegController');
 const auth = require('../../middleware/auth');
 
 //Hasta este punto ya vamos en api/usuario ya comenzamos a
@@ -11,7 +12,7 @@ const auth = require('../../middleware/auth');
 router.get("/listar",reporteController.listar);
 
 //.com/api/usuario/register
-router.post("/registrar",reporteController.registrar);
+router.post("/registrar",reporteController.registrar,reporteRegController.registrar);
 
 
 

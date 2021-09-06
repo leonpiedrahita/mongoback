@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 
+
 const { Equipo, Cliente } = require('../models');//se debe llamar al modelo con el mismo nombre que se exporta
 //en el index de modelos
 const obtenerConexion = require('../conexiones/Factoriaconexion');
@@ -9,8 +10,8 @@ const obtenerModelo = require('../conexiones/FactoriaModelo');
 
 const tokenServices = require('../services/token');
 const connbase1 = obtenerConexion('Primerproyecto');
-const modeloequipo = obtenerModelo('Equipo',Equipo, connbase1)
-const modelocliente = obtenerModelo('Cliente',Cliente, connbase1)
+const modeloequipo = obtenerModelo('Equipo', Equipo, connbase1)
+const modelocliente = obtenerModelo('Cliente', Cliente, connbase1)
 
 exports.listar = async (req, res, next) => {
 
@@ -20,9 +21,9 @@ exports.listar = async (req, res, next) => {
  */    .populate('propietario cliente')
 
     .then(equipo => {
-/*       modelocliente.populate(equipo,{path:"propietario"})
-      modelocliente.populate(equipo,{path:"propietario", select: 'nombre' }) */
-      
+      /*       modelocliente.populate(equipo,{path:"propietario"})
+            modelocliente.populate(equipo,{path:"propietario", select: 'nombre' }) */
+
       res.status(200).json(equipo);
       next()
 
@@ -36,6 +37,7 @@ exports.listar = async (req, res, next) => {
 };
 
 exports.registrar = async (req, res, next) => {
+  const validationResponse = await tokenServices.decode(req.headers.token);
   await modeloequipo.find({ serie: req.body.serie })
     .exec()
     .then(equipos => {
@@ -52,9 +54,16 @@ exports.registrar = async (req, res, next) => {
           serie: req.body.nuevoequipo.serie,
           propietario: req.body.nuevoequipo.propietario.id,
           cliente: req.body.nuevoequipo.cliente.id,
-          ubicacionnombre:req.body.nuevoequipo.ubicacion.nombre,
-          ubicaciondireccion:req.body.nuevoequipo.ubicacion.direccion,
-          estado: 'Activo'
+          ubicacionnombre: req.body.nuevoequipo.ubicacion.nombre,
+          ubicaciondireccion: req.body.nuevoequipo.ubicacion.direccion,
+          estado: 'Activo',
+          placadeinventario: req.body.nuevoequipo.placadeinventario,
+          tipodecontrato:req.body.nuevoequipo.tipodecontrato,
+          historialpropietarios:[{cliente: req.body.nuevoequipo.cliente.id,
+             propietario: req.body.nuevoequipo.propietario.id,
+              ubicacionnombre:  req.body.nuevoequipo.ubicacion.nombre,
+            ubicaciondireccion: req.body.nuevoequipo.ubicacion.direccion,
+             responsable: validationResponse._id, fecha: new Date()}]
         });
         equipo
           .save()
@@ -80,19 +89,33 @@ exports.registrar = async (req, res, next) => {
 };
 
 exports.actualizar = async (req, res, next) => {
+  const validationResponse = await tokenServices.decode(req.headers.token);
   const id = req.params.id;
   const updateOps = {};
+  console.log(req.body)
   const ensayo = Object.keys(req.body);
   for (let i = 0; i < ensayo.length; i++) {
     updateOps[ensayo[i]] = Object.values(req.body)[i]
   }
-  await Equipo.update({ _id: id }, { $set: updateOps })
+  await modeloequipo.update({ _id: id }, {
+    $set: updateOps, $push: {
+      historialpropietarios: {
+        $each:
+          [{
+            cliente: req.body.cliente, propietario: req.body.propietario, ubicacionnombre: req.body.ubicacionnombre,
+            ubicaciondireccion: req.body.ubicaciondireccion, responsable: validationResponse._id, fecha: new Date()
+          }]
+      }
+    }
+  })
     .exec()
     .then(result => {
-      res.status(200).json({
-        message: 'Equipo Actualizado',
-        articulo: result
-      });
+
+      req.respuesta = 'Equipo Actualizado'
+      console.log(result);
+      next()
+
+
     })
     .catch(err => {
       console.log(err);

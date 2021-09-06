@@ -77,27 +77,42 @@ exports.registrar = async (req, res, next) => {
 };
 
 exports.actualizar = async (req, res, next) => {
-  const id = req.params.id;
-  const updateOps = {};
-  const ensayo = Object.keys(req.body);
-  for (let i = 0; i < ensayo.length; i++) {
-    updateOps[ensayo[i]] = Object.values(req.body)[i]
-  }
-  await Equipo.update({ _id: id }, { $set: updateOps })
-    .exec()
+
+  const validationResponse = await tokenServices.decode(req.headers.token);
+
+  const equipo = new modeloequipolog({
+    _id: new mongoose.Types.ObjectId(),
+    insercion: req.body,
+    tipodeinsercion: 'Actualizar',
+    responsable: validationResponse._id
+
+
+    /*           propietario: req.body.propietario,
+              cliente: req.body.cliente, */
+  });
+  await equipo.save()
     .then(result => {
-      res.status(200).json({
-        message: 'Equipo Actualizado',
-        articulo: result
+      console.log(result);
+      console.log(req.respuesta + "Movimiento registrado");
+      res.status(201).json({
+        message: 'Equipo actualizado'
       });
+      next();
+
+
     })
     .catch(err => {
       console.log(err);
       res.status(500).json({
         error: err
       });
+      next(err);
     });
-}
+
+
+
+
+};
 
 exports.buscar = async (req, res, next) => {
 

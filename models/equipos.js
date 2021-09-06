@@ -10,6 +10,11 @@ const equipoSchema = mongoose.Schema({
     ubicacionnombre:{ type: String, required: true },
     ubicaciondireccion:{ type: String, required: true },
     estado:{ type: String, required: true },
+    historialpropietarios: { type: Array, required: false },
+    fechadeinstalacion:{ type: String, required: false },
+    placadeinventario:{ type: String, required: true },
+    tipodecontrato:{ type: String, required: true },
+    historialdeservicios:{ type: Array, required: false },
      
     //productImage: { type: String, required: false }
     

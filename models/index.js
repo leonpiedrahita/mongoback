@@ -10,6 +10,7 @@ const Equipo = require("./equipos");
 const Refequipo = require("./refequipos");
 const Reporte = require("./reportes");
 const Firma = require("./firmas");
+const Orden = require("./ordenes");
 //Creo la conexión con Mongo
 /* mongoose.connect('mongodb+srv://node-shop:'+ process.env.MONGO_ATLAS_PW +'@primerproyecto.v3ebk.mongodb.net/Primerproyecto?retryWrites=true&w=majority', {
     
@@ -29,5 +30,6 @@ module.exports = {
     Refequipo,
     Reporte,
     Firma,
+    Orden
 
 };

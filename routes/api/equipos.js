@@ -17,7 +17,7 @@ router.post("/registrar",equipoController.registrar,equipo2Controller.registrar)
 
 
 //.com/api/usuario/actualizar/id del elemento de la colección que quiero modificar
-router.patch("/actualizar/:id",equipoController.actualizar);
+router.patch("/actualizar/:id",equipoController.actualizar,equipo2Controller.actualizar);
 
 router.get("/buscar",equipoController.buscar);
 

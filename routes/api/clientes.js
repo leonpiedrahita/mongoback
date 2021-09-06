@@ -9,7 +9,7 @@ const auth = require('../../middleware/auth');
 // manejar los metodos
 
 //.com/api/usuario/listar
-router.get("/listar",auth.verificarAdministrador,clienteController.listar);
+router.get("/listar"/* ,auth.verificarAdministrador */,clienteController.listar);
 //.com/api/usuario/registrar
 router.post("/registrar",clienteController.registrar,clienteRegController.registrar);
 //.com/api/usuario/actualizar/id del elemento de la colección que quiero modificar
