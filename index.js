@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}));//esto es para leer este tipo
 app.use(morgan("dev"));
 
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://quiet-plains-55064.herokuapp.com/");
+    res.header("Access-Control-Allow-Origin", "*");
     res.header(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept, Authorization"
